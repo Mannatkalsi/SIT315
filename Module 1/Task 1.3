@@ -1,0 +1,42 @@
+volatile byte r,g,b = 0;
+int interrCount = 0;
+void setup()
+{
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
+  
+  attachInterrupt(digitalPinToInterrupt(2), interruptChange, RISING);
+  attachInterrupt(digitalPinToInterrupt(3), interruptChange1, RISING);
+  Serial.begin(96000);
+}
+
+void loop()
+{
+  interrCount++;
+  digitalWrite(12, 1);
+  delay(500);
+  digitalWrite(12, 0);
+  delay(500);
+  
+  if(interrCount == 10){
+    interrCount = 0;
+  digitalWrite(10, 0);
+  digitalWrite(11, 0);
+    Serial.println("Inactive");
+  }
+}
+
+void interruptChange() {
+      digitalWrite(10, 1);
+      Serial.println("Interrupted by 1st sensor");
+}
+
+void interruptChange1() {
+      digitalWrite(11, 1);
+      Serial.println("Interrupted by 2nd sensor");
+}
+
